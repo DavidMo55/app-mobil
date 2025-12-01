@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image, StatusBar, ScrollView, Modal } from 'react-native';
-import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
-import { ChevronLeft, Search, SlidersHorizontal, Star, MapPin, X, ChevronDown } from 'lucide-react-native';
-import { PROFESSIONALS, CATEGORIES } from '../data/mackData';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { ChevronLeft, MapPin, Search, SlidersHorizontal, Star, X } from 'lucide-react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Image, Modal, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { PROFESSIONALS } from '../data/mackData';
 
 type SortOption = 'relevance' | 'price_asc' | 'price_desc' | 'rating_desc';
 
