@@ -1,26 +1,18 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { ChevronLeft, MapPin, MessageCircle, Send, Share2, Star } from 'lucide-react-native';
-import React, { useRef, useState } from 'react';
-import { Image, LayoutChangeEvent, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { PROFESSIONALS } from '../../data/mackData';
+import { ChevronLeft, MapPin, MessageCircle, Share2, Star } from 'lucide-react-native';
+import React, { useEffect } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { PROFESSIONALS } from '../../data/mockData';
 
 export default function ProfessionalDetails() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   
-  // Referencia para controlar el Scroll
-  const scrollViewRef = useRef<ScrollView>(null);
-  const [reviewsY, setReviewsY] = useState(0);
-
-  // 1. Buscamos el profesional
   const proInitial = PROFESSIONALS.find(p => String(p.id) === String(id));
 
-  // 2. Estado para las reseñas
-  const [reviews, setReviews] = useState(proInitial?.reviewsList || []);
-  
-  // 3. Estado para el formulario de nueva reseña
-  const [newComment, setNewComment] = useState('');
-  const [newRating, setNewRating] = useState(0);
+  useEffect(() => {
+    console.log("✅ Detalles cargados. ID:", id);
+  }, []);
 
   if (!proInitial) {
     return (
@@ -33,42 +25,12 @@ export default function ProfessionalDetails() {
     );
   }
 
-  // Función para hacer scroll hasta las reseñas
-  const scrollToReviews = () => {
-    console.log("Intentando hacer scroll a Y:", reviewsY); // DEBUG: Revisa tu terminal
-    if (scrollViewRef.current) {
-      // Si reviewsY es 0, usamos un valor aproximado (800) como fallback
-      const targetY = reviewsY > 0 ? reviewsY - 100 : 600;
-      scrollViewRef.current.scrollTo({ y: targetY, animated: true });
-    }
-  };
-
-  // Función para agregar reseña
-  const handleAddReview = () => {
-    if (newRating === 0) {
-      alert("Por favor selecciona una calificación de estrellas."); 
-      return;
-    }
-    if (newComment.trim() === "") {
-      alert("Por favor escribe un comentario.");
-      return;
-    }
-
-    const newReviewItem = {
-      id: Date.now().toString(),
-      user: "Tú",
-      date: "Ahora mismo",
-      rating: newRating,
-      comment: newComment
-    };
-
-    setReviews([newReviewItem, ...reviews]);
-    setNewComment("");
-    setNewRating(0);
-    
-    // Scroll automático para ver tu nueva reseña
-    if (scrollViewRef.current) {
-        scrollViewRef.current.scrollTo({ y: reviewsY - 50, animated: true });
+  // --- CORRECCIÓN AQUÍ ---
+  const goToReviews = () => {
+    // Usamos navegación por string que es más robusta y evita errores de tipos
+    if (proInitial?.id) {
+        // @ts-ignore: Ignoramos el error de tipo temporalmente hasta que Expo detecte el archivo
+        router.push(`/reviews?id=${proInitial.id}` as any);
     }
   };
 
@@ -77,7 +39,6 @@ export default function ProfessionalDetails() {
       <Stack.Screen options={{ headerShown: false }} />
 
       <ScrollView 
-        ref={scrollViewRef}
         style={{ flex: 1 }} 
         contentContainerStyle={{ paddingBottom: 140 }} 
         showsVerticalScrollIndicator={false}
@@ -112,30 +73,32 @@ export default function ProfessionalDetails() {
             <Text style={styles.price}>{proInitial.price}</Text>
           </View>
 
-          {/* DATOS EXTRA - AHORA CLICABLES */}
+          {/* DATOS EXTRA - CLICABLES */}
           <View style={styles.statsContainer}>
             
-            {/* 1. Rating Clicable */}
+            {/* 1. Rating - Lleva a Reseñas */}
             <TouchableOpacity 
               style={styles.statItem}
-              onPress={scrollToReviews}
+              onPress={goToReviews}
               activeOpacity={0.5}
             >
                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                  <Text style={[styles.statValue, { color: '#4338ca' }]}>{proInitial.rating}</Text>
                  <Star size={14} color="#ca8a04" fill="#facc15" style={{marginLeft: 2}}/>
                </View>
-               <Text style={[styles.statLabel, { color: '#4338ca', fontWeight: '700' }]}>Rating</Text>
+               <Text style={[styles.statLabel, { color: '#4338ca', fontWeight: '700' }]}>Ver Opiniones</Text>
             </TouchableOpacity>
             
-            {/* 2. Reseñas Clicable */}
+            {/* 2. Reseñas - Lleva a Reseñas */}
             <TouchableOpacity 
               style={[styles.statItem, styles.borderLeft]}
-              onPress={scrollToReviews}
+              onPress={goToReviews}
               activeOpacity={0.5}
             >
-               <Text style={[styles.statValue, { color: '#4338ca' }]}>{reviews.length}</Text>
-               <Text style={[styles.statLabel, { color: '#4338ca', fontWeight: '700' }]}>Reseñas</Text>
+               <Text style={[styles.statValue, { color: '#4338ca' }]}>
+                 {proInitial.reviewsList ? proInitial.reviewsList.length : proInitial.reviews}
+               </Text>
+               <Text style={[styles.statLabel, { color: '#4338ca', fontWeight: '700' }]}>Leer todas</Text>
             </TouchableOpacity>
 
             <View style={[styles.statItem, styles.borderLeft]}>
@@ -153,71 +116,8 @@ export default function ProfessionalDetails() {
             <Text style={styles.locationText}>{proInitial.location}</Text>
           </View>
           
-          {/* --- SECCIÓN DE RESEÑAS --- */}
-          <View 
-            style={styles.reviewsSection}
-            onLayout={(event: LayoutChangeEvent) => {
-              // Calculamos posición. 260 es la altura visible aproximada de la imagen antes del contenido
-              const layout = event.nativeEvent.layout;
-              console.log("Posición de reseñas detectada:", layout.y + 260); // DEBUG
-              setReviewsY(layout.y + 260); 
-            }}
-          >
-             <Text style={styles.sectionTitle}>Opiniones ({reviews.length})</Text>
-
-             {/* Formulario Nueva Reseña */}
-             <View style={styles.addReviewBox}>
-                <Text style={styles.addReviewTitle}>¿Trabajaste con {proInitial.name.split(' ')[0]}?</Text>
-                
-                {/* Estrellas Interactivas */}
-                <View style={styles.starSelector}>
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <TouchableOpacity key={star} onPress={() => setNewRating(star)}>
-                       <Star 
-                         size={28} 
-                         color={star <= newRating ? "#ca8a04" : "#cbd5e1"} 
-                         fill={star <= newRating ? "#facc15" : "transparent"} 
-                       />
-                    </TouchableOpacity>
-                  ))}
-                </View>
-
-                {/* Input */}
-                <View style={styles.inputWrapper}>
-                   <TextInput 
-                      style={styles.reviewInput}
-                      placeholder="Escribe tu reseña..."
-                      placeholderTextColor="#94a3b8"
-                      multiline
-                      value={newComment}
-                      onChangeText={setNewComment}
-                   />
-                   <TouchableOpacity style={styles.sendButton} onPress={handleAddReview}>
-                      <Send size={18} color="#fff" />
-                   </TouchableOpacity>
-                </View>
-             </View>
-
-             {/* Lista de Reseñas */}
-             {reviews.map((review) => (
-               <View key={review.id} style={styles.reviewCard}>
-                 <View style={styles.reviewHeader}>
-                   <Text style={styles.reviewUser}>{review.user}</Text>
-                   <Text style={styles.reviewDate}>{review.date}</Text>
-                 </View>
-                 <View style={styles.reviewRatingRow}>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                       <Star 
-                         key={star} 
-                         size={12} 
-                         color={star <= review.rating ? "#ca8a04" : "#e2e8f0"} 
-                         fill={star <= review.rating ? "#facc15" : "transparent"} 
-                       />
-                    ))}
-                 </View>
-                 <Text style={styles.reviewText}>{review.comment}</Text>
-               </View>
-             ))}
+          <View style={styles.mapPlaceholder}>
+             <Text style={{color: '#94a3b8'}}>Mapa Interactivo</Text>
           </View>
 
         </View>
@@ -285,31 +185,10 @@ const styles = StyleSheet.create({
   },
   locationText: { marginLeft: 8, color: '#475569', fontWeight: '600' },
 
-  // --- ESTILOS DE RESEÑAS ---
-  reviewsSection: { marginBottom: 20 },
-  
-  // Caja para agregar reseña
-  addReviewBox: {
-    backgroundColor: '#f8fafc', padding: 16, borderRadius: 16, marginBottom: 20,
-    borderWidth: 1, borderColor: '#e2e8f0'
+  mapPlaceholder: {
+    height: 150, backgroundColor: '#f1f5f9', borderRadius: 16,
+    alignItems: 'center', justifyContent: 'center', marginBottom: 20
   },
-  addReviewTitle: { fontSize: 14, fontWeight: '600', color: '#334155', marginBottom: 8 },
-  starSelector: { flexDirection: 'row', gap: 8, marginBottom: 12 },
-  inputWrapper: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', borderRadius: 12, borderWidth: 1, borderColor: '#e2e8f0', paddingRight: 8 },
-  reviewInput: { flex: 1, padding: 12, maxHeight: 80, color: '#0f172a' },
-  sendButton: { backgroundColor: '#4f46e5', padding: 8, borderRadius: 8 },
-
-  // Tarjeta de reseña individual
-  reviewCard: {
-    backgroundColor: '#fff', padding: 16, borderRadius: 16, marginBottom: 12,
-    borderWidth: 1, borderColor: '#f1f5f9',
-    shadowColor: '#000', shadowOpacity: 0.02, shadowRadius: 4, elevation: 1
-  },
-  reviewHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
-  reviewUser: { fontWeight: '700', color: '#0f172a', fontSize: 14 },
-  reviewDate: { fontSize: 12, color: '#94a3b8' },
-  reviewRatingRow: { flexDirection: 'row', marginBottom: 8 },
-  reviewText: { fontSize: 13, color: '#475569', lineHeight: 20 },
 
   footer: {
     position: 'absolute', bottom: 0, left: 0, right: 0,

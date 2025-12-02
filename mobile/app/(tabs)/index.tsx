@@ -1,8 +1,11 @@
+import { useRouter } from 'expo-router';
+import { Briefcase, Home, MapPin, Monitor, Paintbrush, Search, Star, User, Wrench } from 'lucide-react-native';
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, StatusBar, TextInput, StyleSheet } from 'react-native';
+import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Search, MapPin, User, Monitor, Home, Paintbrush, Wrench, Briefcase, Star } from 'lucide-react-native';
-import { useRouter } from 'expo-router'; // 1. Importamos el hook
+
+// Si prefieres usar los datos centralizados, descomenta la siguiente línea y borra las constantes locales:
+// import { CATEGORIES, PROFESSIONALS } from '../../data/mockData';
 
 const CATEGORIES = [
   { id: 'tech', name: 'Tecnología', icon: Monitor, bgColor: '#DBEAFE', iconColor: '#2563eb' },
@@ -15,23 +18,31 @@ const CATEGORIES = [
 
 const FEATURED_PROS = [
   {
-    id: 1,
+    id: '7',
+    categoryId: 'repair',
     name: 'Carlos Méndez',
     title: 'Electricista Certificado',
     rating: 4.8,
+    reviews: 124,
     price: '$400 / hora',
+    location: 'Centro, CDMX',
     distance: '1.2 km',
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=300'
+    description: 'Instalaciones residenciales y comerciales. 10+ años de experiencia.',
+    portfolio: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=300',
   },
   {
-    id: 2,
-    name: 'Ana García',
-    title: 'Diseñadora UX/UI',
+    id: '9',
+    categoryId: 'legal',
+    name: 'Adriana Ruíz',
+    title: 'Abogada Civil',
     rating: 4.9,
-    price: '$650 / hora',
-    distance: '3.5 km',
-    image: 'https://images.unsplash.com/photo-1586717791821-3f44a5638d48?auto=format&fit=crop&q=80&w=300'
-  }
+    reviews: 150,
+    price: '$1200 / hora',
+    location: 'Reforma, CDMX',
+    distance: '1.1 km',
+    description: 'Especialista en casos civiles, asesoría legal y contratos.',
+    portfolio: 'https://images.unsplash.com/photo-1555374018-13a8994ab246?auto=format&fit=crop&q=80&w=300',
+  },
 ];
 
 export default function HomeScreen() {
@@ -55,7 +66,6 @@ export default function HomeScreen() {
 
           <TouchableOpacity
             style={styles.avatarButton}
-            
             activeOpacity={0.8}
           >
             <User size={20} color="#4f46e5" />
@@ -68,7 +78,8 @@ export default function HomeScreen() {
             <TextInput
               value={query}
               onChangeText={setQuery}
-              onSubmitEditing={() => router.push({ pathname: '/list', params: { search: query } })}
+              // FIX: Usamos `as any` para evitar error de tipado estricto en rutas dinámicas
+              onSubmitEditing={() => router.push({ pathname: '/list', params: { search: query } } as any)}
               
               placeholder="¿Qué servicio necesitas?"
               placeholderTextColor="#94a3b8"
@@ -81,7 +92,12 @@ export default function HomeScreen() {
             <View style={styles.bannerInner}>
               <Text style={styles.badge}>NUEVO</Text>
               <Text style={styles.bannerTitle}>Descuento en servicios de hogar</Text>
-              <TouchableOpacity style={styles.bannerButton} activeOpacity={0.85}>
+              {/* FIX: Botón conectado a la pantalla de Cupones */}
+              <TouchableOpacity 
+                style={styles.bannerButton} 
+                activeOpacity={0.85}
+                onPress={() => router.push('/cupones' as any)}
+              >
                 <Text style={styles.bannerButtonText}>Ver oferta</Text>
               </TouchableOpacity>
             </View>
@@ -91,7 +107,7 @@ export default function HomeScreen() {
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Categorías</Text>
             
-              <TouchableOpacity onPress={() => router.push({ pathname: '/Categorias' } as any)}>
+              <TouchableOpacity onPress={() => router.push('/Categorias' as any)}>
                 <Text style={styles.linkText}>Ver todas</Text>
               </TouchableOpacity>
 
@@ -103,6 +119,7 @@ export default function HomeScreen() {
                 return (
                   <TouchableOpacity
                     key={cat.id}
+                    // FIX: `as any` añadido aquí también
                     onPress={() => router.push({ pathname: '/list', params: { categoryId: cat.id, name: cat.name } } as any)}
                     style={styles.categoryItem}
                     activeOpacity={0.85}
@@ -117,25 +134,23 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          
-
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, { marginBottom: 12 }]}>Recomendados</Text>
 
             {FEATURED_PROS.map((pro) => (
               <TouchableOpacity
                 key={pro.id}
-                onPress={() => router.push(`/professional/${pro.id}`)}
+                onPress={() => router.push(`/professional/${pro.id}` as any)}
                 style={styles.proCard}
                 activeOpacity={0.9}
               >
-                <Image source={{ uri: pro.image }} style={styles.proImage} />
+                <Image source={{ uri: pro.portfolio }} style={styles.proImage} />
 
                 <View style={styles.proBody}>
                   <View style={styles.proTop}>
                     <Text style={styles.proName}>{pro.name}</Text>
                     <View style={styles.rating}>
-                      <Star size={12} color="#ca8a04" />
+                      <Star size={12} color="#ca8a04" fill="#facc15" />
                       <Text style={styles.ratingText}>{pro.rating}</Text>
                     </View>
                   </View>

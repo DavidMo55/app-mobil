@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, StatusBar } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
-import { CATEGORIES } from '../../data/mackData';
+import { CATEGORIES } from '../../data/mockData';
 
 type Category = {
   id: string;

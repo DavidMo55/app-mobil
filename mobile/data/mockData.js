@@ -1,3 +1,14 @@
+import { Briefcase, Home, Monitor, Paintbrush, User, Wrench } from 'lucide-react-native';
+
+export const CATEGORIES = [
+  { id: 'tech', name: 'Tecnología', icon: Monitor, color: 'bg-blue-100', iconColor: '#2563eb', bgColor: '#DBEAFE' },
+  { id: 'home', name: 'Hogar', icon: Home, color: 'bg-orange-100', iconColor: '#ea580c', bgColor: '#FFEDD5' },
+  { id: 'design', name: 'Diseño', icon: Paintbrush, color: 'bg-purple-100', iconColor: '#9333ea', bgColor: '#EDE9FE' },
+  { id: 'repair', name: 'Reparaciones', icon: Wrench, color: 'bg-green-100', iconColor: '#16a34a', bgColor: '#D1FAE5' },
+  { id: 'legal', name: 'Legal', icon: Briefcase, color: 'bg-slate-100', iconColor: '#475569', bgColor: '#F1F5F9' },
+  { id: 'beauty', name: 'Belleza', icon: User, color: 'bg-pink-100', iconColor: '#db2777', bgColor: '#FCE7F3' },
+];
+
 export const PROFESSIONALS = [
   // --- TECNOLOGÍA ---
   {
@@ -6,7 +17,7 @@ export const PROFESSIONALS = [
     name: 'Luis Hernández',
     title: 'Técnico en Computadoras',
     rating: 4.7,
-    reviews: 112,
+    reviews: 1,
     price: '$350 / hora',
     location: 'Polanco, CDMX',
     distance: '2.3 km',
@@ -17,7 +28,8 @@ export const PROFESSIONALS = [
     ],
     coords: { lat: 19.432, lon: -99.197 },
     reviewsList: [
-      { id: 'r1', user: 'Erika R.', date: 'Hace 3 días', rating: 5, comment: 'Muy profesional, mi laptop quedó como nueva.' }
+      { id: 'r1', user: 'Erika R.', date: 'Hace 3 días', rating: 5, comment: 'Muy profesional, mi laptop quedó como nueva.' },
+      { id: 'r2', user: 'Carlos M.', date: 'Hace 1 semana', rating: 4, comment: 'Buen servicio, un poco tardado pero valió la pena.' }
     ]
   },
   {
@@ -35,7 +47,10 @@ export const PROFESSIONALS = [
       'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=300'
     ],
     coords: { lat: 19.420, lon: -99.180 },
-    reviewsList: []
+    reviewsList: [
+      { id: 'r1', user: 'Ana P.', date: 'Hace 2 días', rating: 5, comment: 'Increíble trabajo, entendió perfecto lo que necesitaba.' },
+      { id: 'r2', user: 'Jorge T.', date: 'Hace 5 días', rating: 5, comment: 'Código muy limpio y entrega a tiempo.' }
+    ]
   },
 
   // --- HOGAR ---
@@ -53,7 +68,11 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1586105251261-72a756497a11?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.360, lon: -99.162 }
+    coords: { lat: 19.360, lon: -99.162 },
+    reviewsList: [
+      { id: 'r1', user: 'Lucía M.', date: 'Ayer', rating: 5, comment: 'Me cambió la vida, mi closet nunca había estado tan ordenado.' },
+      { id: 'r2', user: 'Roberto G.', date: 'Hace 2 semanas', rating: 4, comment: 'Muy buenas ideas para aprovechar el espacio.' }
+    ]
   },
   {
     id: '4',
@@ -69,7 +88,11 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1589739904305-7ab6c19b87bc?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.395, lon: -99.138 }
+    coords: { lat: 19.395, lon: -99.138 },
+    reviewsList: [
+      { id: 'r1', user: 'Fernando S.', date: 'Hace 1 día', rating: 5, comment: 'Llegó rapidísimo y arregló la fuga en minutos.' },
+      { id: 'r2', user: 'Elena V.', date: 'Hace 3 días', rating: 4, comment: 'Buen trabajo, precio justo.' }
+    ]
   },
 
   // --- DISEÑO ---
@@ -87,7 +110,11 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1509395062183-67c5ad6faff9?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.419, lon: -99.162 }
+    coords: { lat: 19.419, lon: -99.162 },
+    reviewsList: [
+      { id: 'r1', user: 'Startup X', date: 'Hace 1 semana', rating: 5, comment: 'Diseños de clase mundial. Elevó nuestra marca.' },
+      { id: 'r2', user: 'David L.', date: 'Hace 2 semanas', rating: 5, comment: 'Muy creativa y atenta a los detalles.' }
+    ]
   },
   {
     id: '6',
@@ -103,7 +130,11 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.409, lon: -99.150 }
+    coords: { lat: 19.409, lon: -99.150 },
+    reviewsList: [
+      { id: 'r1', user: 'Cafetería Local', date: 'Hace 3 días', rating: 4, comment: 'Nos encantó el logo nuevo.' },
+      { id: 'r2', user: 'Mónica J.', date: 'Hace 1 mes', rating: 5, comment: 'Excelente manejo de colores.' }
+    ]
   },
 
   // --- REPARACIONES ---
@@ -121,7 +152,11 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.4326, lon: -99.1332 }
+    coords: { lat: 19.4326, lon: -99.1332 },
+    reviewsList: [
+      { id: 'r1', user: 'Pedro Pablo', date: 'Hace 2 días', rating: 5, comment: 'Un maestro en lo que hace. Resolvió un corto que nadie más pudo.' },
+      { id: 'r2', user: 'Laura G.', date: 'Hace 1 semana', rating: 4, comment: 'Muy amable y limpio al trabajar.' }
+    ]
   },
   {
     id: '8',
@@ -137,7 +172,10 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1523419349645-74f7d9a3e7f5?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.350, lon: -99.161 }
+    coords: { lat: 19.350, lon: -99.161 },
+    reviewsList: [
+      { id: 'r1', user: 'Restaurante El Sol', date: 'Hace 4 días', rating: 5, comment: 'Salvó nuestra mercancía al arreglar el congelador en domingo.' }
+    ]
   },
 
   // --- LEGAL ---
@@ -155,7 +193,11 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1555374018-13a8994ab246?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.432, lon: -99.150 }
+    coords: { lat: 19.432, lon: -99.150 },
+    reviewsList: [
+      { id: 'r1', user: 'Grupo Inmobiliario', date: 'Hace 1 semana', rating: 5, comment: 'Asesoría impecable para nuestros contratos.' },
+      { id: 'r2', user: 'Sofia L.', date: 'Hace 3 semanas', rating: 5, comment: 'Muy profesional y discreta.' }
+    ]
   },
   {
     id: '10',
@@ -171,7 +213,10 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1593113630400-e5213f53ed87?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.430, lon: -99.140 }
+    coords: { lat: 19.430, lon: -99.140 },
+    reviewsList: [
+      { id: 'r1', user: 'Anónimo', date: 'Hace 1 mes', rating: 5, comment: 'Excelente estrategia legal.' }
+    ]
   },
 
   // --- BELLEZA ---
@@ -189,7 +234,11 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.412, lon: -99.160 }
+    coords: { lat: 19.412, lon: -99.160 },
+    reviewsList: [
+      { id: 'r1', user: 'Novia Feliz', date: 'Hace 2 semanas', rating: 5, comment: 'El maquillaje me duró toda la boda, ¡gracias!' },
+      { id: 'r2', user: 'Carla D.', date: 'Hace 1 mes', rating: 5, comment: 'Súper talentosa.' }
+    ]
   },
   {
     id: '12',
@@ -205,10 +254,13 @@ export const PROFESSIONALS = [
     portfolio: [
       'https://images.unsplash.com/photo-1522335660651-a079a1b3fa5a?auto=format&fit=crop&q=80&w=300'
     ],
-    coords: { lat: 19.430, lon: -99.150 }
+    coords: { lat: 19.430, lon: -99.150 },
+    reviewsList: [
+      { id: 'r1', user: 'Mariana P.', date: 'Hace 3 días', rating: 4, comment: 'Me gustó mucho el corte.' }
+    ]
   },
 
-  // --- MÁS PROFESIONALES PARA COMPLETAR 20 ---
+  // --- OTROS ---
   {
     id: '13',
     categoryId: 'tech',
@@ -219,9 +271,14 @@ export const PROFESSIONALS = [
     price: '$420 / hora',
     location: 'Santa Fe, CDMX',
     distance: '7.2 km',
+    description: 'Configuración de redes WiFi, cableado estructurado y seguridad.',
     portfolio: [
       'https://images.unsplash.com/photo-1581093458791-9a6c6f7c5320?auto=format&fit=crop&q=80&w=300'
-    ]
+    ],
+    reviewsList: [
+      { id: 'r1', user: 'Oficina Central', date: 'Hace 1 semana', rating: 5, comment: 'Mejoró muchísimo la velocidad del internet.' }
+    ],
+    coords: { lat: 19.36, lon: -99.26 } 
   },
   {
     id: '14',
@@ -233,9 +290,14 @@ export const PROFESSIONALS = [
     price: '$500 / hora',
     location: 'Azcapotzalco, CDMX',
     distance: '6.0 km',
+    description: 'Muebles a medida, reparaciones de madera y barnizado.',
     portfolio: [
       'https://images.unsplash.com/photo-1585616595152-d132d0e8d27b?auto=format&fit=crop&q=80&w=300'
-    ]
+    ],
+    reviewsList: [
+      { id: 'r1', user: 'Familia Ruiz', date: 'Hace 2 semanas', rating: 5, comment: 'La mesa quedó preciosa.' }
+    ],
+    coords: { lat: 19.48, lon: -99.18 }
   },
   {
     id: '15',
@@ -247,9 +309,14 @@ export const PROFESSIONALS = [
     price: '$350 / hora',
     location: 'San Ángel, CDMX',
     distance: '5.5 km',
+    description: 'Faciales, masajes y tratamientos de piel.',
     portfolio: [
       'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=300'
-    ]
+    ],
+    reviewsList: [
+      { id: 'r1', user: 'Andrea L.', date: 'Hace 5 días', rating: 5, comment: 'Muy relajante, mi piel se siente genial.' }
+    ],
+    coords: { lat: 19.34, lon: -99.19 }
   },
   {
     id: '16',
@@ -261,9 +328,14 @@ export const PROFESSIONALS = [
     price: '$380 / hora',
     location: 'Cuauhtémoc, CDMX',
     distance: '2.9 km',
+    description: 'Ilustración digital y tradicional para libros y publicidad.',
     portfolio: [
       'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&q=80&w=300'
-    ]
+    ],
+    reviewsList: [
+      { id: 'r1', user: 'Editorial J.', date: 'Hace 1 mes', rating: 4, comment: 'Gran estilo artístico.' }
+    ],
+    coords: { lat: 19.44, lon: -99.15 }
   },
   {
     id: '17',
@@ -275,9 +347,14 @@ export const PROFESSIONALS = [
     price: '$1800 / hora',
     location: 'Lomas, CDMX',
     distance: '4.9 km',
+    description: 'Trámites notariales, testamentos y escrituras.',
     portfolio: [
       'https://images.unsplash.com/photo-1555374018-13a8994ab246?auto=format&fit=crop&q=80&w=300'
-    ]
+    ],
+    reviewsList: [
+      { id: 'r1', user: 'Carlos V.', date: 'Hace 2 semanas', rating: 5, comment: 'Trámite rápido y seguro.' }
+    ],
+    coords: { lat: 19.42, lon: -99.21 }
   },
   {
     id: '18',
@@ -289,9 +366,14 @@ export const PROFESSIONALS = [
     price: '$280 / hora',
     location: 'Iztapalapa, CDMX',
     distance: '8.3 km',
+    description: 'Mantenimiento de jardines, poda y diseño de paisaje.',
     portfolio: [
       'https://images.unsplash.com/photo-1592214027429-5d79a8329c32?auto=format&fit=crop&q=80&w=300'
-    ]
+    ],
+    reviewsList: [
+      { id: 'r1', user: 'Sra. Rosa', date: 'Hace 1 semana', rating: 5, comment: 'Dejó mi jardín hermoso.' }
+    ],
+    coords: { lat: 19.35, lon: -99.08 }
   },
   {
     id: '19',
@@ -303,9 +385,14 @@ export const PROFESSIONALS = [
     price: '$350 / hora',
     location: 'Tlalpan, CDMX',
     distance: '9.1 km',
+    description: 'Construcción, remodelación y acabados.',
     portfolio: [
       'https://images.unsplash.com/photo-1562259949-b4a0c72a45cd?auto=format&fit=crop&q=80&w=300'
-    ]
+    ],
+    reviewsList: [
+      { id: 'r1', user: 'Arq. Méndez', date: 'Hace 3 semanas', rating: 4, comment: 'Buen trabajador, cumple con los tiempos.' }
+    ],
+    coords: { lat: 19.29, lon: -99.16 }
   },
   {
     id: '20',
@@ -317,8 +404,13 @@ export const PROFESSIONALS = [
     price: '$900 / hora',
     location: 'Reforma, CDMX',
     distance: '1.0 km',
+    description: 'Consultoría estratégica en tecnología para empresas.',
     portfolio: [
       'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=300'
-    ]
+    ],
+    reviewsList: [
+      { id: 'r1', user: 'Director General', date: 'Hace 5 días', rating: 5, comment: 'Visión estratégica impecable.' }
+    ],
+    coords: { lat: 19.43, lon: -99.16 }
   }
 ];

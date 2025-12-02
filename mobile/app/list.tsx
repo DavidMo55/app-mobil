@@ -2,7 +2,8 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { ChevronLeft, MapPin, Search, SlidersHorizontal, Star, X } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, Modal, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { PROFESSIONALS } from '../data/mackData';
+// CORRECCIÓN 1: Nombre del archivo correcto 'mockData'
+import { PROFESSIONALS } from '../data/mockData';
 
 type SortOption = 'relevance' | 'price_asc' | 'price_desc' | 'rating_desc';
 
@@ -14,15 +15,14 @@ export default function ListScreen() {
   const [searchQuery, setSearchQuery] = useState(params.search as string || '');
   const [results, setResults] = useState(PROFESSIONALS);
   const [activeSort, setActiveSort] = useState<SortOption>('relevance');
-  const [showFilters, setShowFilters] = useState(false); // Modal de filtros
+  const [showFilters, setShowFilters] = useState(false); 
   
-  // Filtros activos
   const [minRating, setMinRating] = useState(0);
-  const [priceRange, setPriceRange] = useState<'all' | 'low' | 'mid' | 'high'>('all');
 
   useEffect(() => {
     let filtered = PROFESSIONALS;
 
+    // 1. Filtrado por Texto (Buscador)
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       filtered = filtered.filter(p => 
@@ -31,16 +31,18 @@ export default function ListScreen() {
       );
     }
 
+    // 2. Filtrado por Categoría (CORRECCIÓN 2: Lógica activada)
     if (params.categoryId) {
-      // Nota: En el mock data real deberíamos tener un campo 'categoryId' en los profesionales.
-      // Para esta demo, simularemos que si buscas por categoría filtra por título relacionado.
-      // En un caso real: filtered = filtered.filter(p => p.categoryId === params.categoryId);
+      // Como ya agregamos 'categoryId' a mockData, ahora sí podemos filtrar
+      filtered = filtered.filter(p => p.categoryId === params.categoryId);
     }
 
+    // 3. Filtrado por Rating
     if (minRating > 0) {
       filtered = filtered.filter(p => p.rating >= minRating);
     }
     
+    // 4. Ordenamiento
     if (activeSort === 'price_asc') {
       filtered.sort((a, b) => parseInt(a.price.replace(/\D/g,'')) - parseInt(b.price.replace(/\D/g,'')));
     } else if (activeSort === 'price_desc') {
@@ -186,7 +188,6 @@ export default function ListScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
   
-  // Header
   header: {
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12, paddingTop: 50,
     backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#f1f5f9'
@@ -198,7 +199,6 @@ const styles = StyleSheet.create({
   },
   searchInput: { flex: 1, marginLeft: 8, fontSize: 16, color: '#0f172a' },
 
-  // Filtros
   filterBarContainer: { backgroundColor: '#fff', paddingVertical: 12 },
   filterBar: { paddingHorizontal: 16, gap: 10 },
   filterButton: {
@@ -212,7 +212,6 @@ const styles = StyleSheet.create({
   chipText: { fontSize: 14, color: '#475569', fontWeight: '500' },
   chipTextActive: { color: '#4f46e5', fontWeight: '600' },
 
-  // Lista
   listContent: { padding: 16 },
   card: {
     flexDirection: 'row', backgroundColor: '#fff', borderRadius: 16, marginBottom: 16,
@@ -235,7 +234,6 @@ const styles = StyleSheet.create({
   emptyText: { marginTop: 16, fontSize: 18, fontWeight: '600', color: '#0f172a' },
   emptySubText: { fontSize: 14, color: '#64748b', marginTop: 4 },
 
-  // Modal
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
   modalContent: { backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 24, minHeight: 300 },
   modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 },
